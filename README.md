@@ -75,12 +75,12 @@ provisioning lives in
 [wizard-web](https://github.com/MichalAFerber/wizard-web)
 (`scripts/cloudflare-setup-external.sh`).
 
-Ongoing deploys are CI: every push to `main` runs the e2e suite and, when
-green, `.github/workflows/deploy.yml` direct-uploads the site with
-`wrangler pages deploy`. The workflow needs one repo secret:
-
-- `CLOUDFLARE_API_TOKEN` — Account · Cloudflare Pages · Edit
-  (TechGuyWithABeard) is sufficient for deploys.
+Ongoing deploys follow the family deploy model: every push to `main` runs
+the e2e suite; the deploy job then gates on credentials and **skips green**
+when no `CLOUDFLARE_API_TOKEN` secret is configured (the live site simply
+keeps its last upload). If that secret is ever added (Account · Cloudflare
+Pages · Edit is enough), green pushes auto-upload via `wrangler pages
+deploy` — no other setup.
 
 ## Vendored libraries
 
