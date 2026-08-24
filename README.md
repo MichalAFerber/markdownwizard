@@ -100,6 +100,13 @@ only third-party request the page makes is the Plausible tracker on
 `plausible.thompsonblack.us`, which is self-hosted, cookieless, and carries no
 document content.
 
+A strict Content-Security-Policy ships in `_headers` (`default-src 'none'`, and
+`script-src` with **no** `'unsafe-inline'` — the Plausible loader lives in
+`js/analytics.js` so the page keeps zero inline script). It is a response header
+rather than a `<meta>` tag on purpose: a meta policy would also apply to the
+offline `file://` use, where it buys nothing. `tests/csp-check.mjs` serves the
+site with that exact policy and fails on any violation.
+
 ## Known limitations
 
 - The direct PDF uses embedded Roboto: emoji and some symbols outside its
