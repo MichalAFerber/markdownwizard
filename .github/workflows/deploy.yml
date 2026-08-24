@@ -90,10 +90,13 @@ jobs:
           cp -a . /tmp/site/
           rm -rf /tmp/site/.git /tmp/site/.github /tmp/site/tests \
                  /tmp/site/README.md /tmp/site/LICENSE /tmp/site/.gitignore /tmp/site/.nvmrc
+          # /tmp/site deliberately has no .git; wrangler runs from the checkout below
+          # so the deployment records the real commit and commit-dirty=false —
+          # cf-pages-workers-audit (§4) flags any deploy that matches no commit.
 
       - name: Deploy to Cloudflare Pages (production)
         if: steps.gate.outputs.ok == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '8a0d49b1f3fdcdadec135562ec8a4fdc' }}
-        run: cd /tmp/site && npx wrangler@4 pages deploy . --project-name markdownwizard --branch main --commit-dirty=true
+        run: npx wrangler@4 pages deploy /tmp/site --project-name markdownwizard --branch main --commit-dirty=false
