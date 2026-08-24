@@ -1,0 +1,51 @@
+# Cloudflare Pages headers — TGWAB dev-standards §12.
+#
+# Deliberately NOT a <meta http-equiv> CSP: this page is also meant to be
+# double-clicked and used offline from file://, where a meta policy would apply
+# too and break the local-file case for no benefit. Response headers only reach
+# the hosted site, which is exactly the surface that needs them.
+#
+# script-src carries NO 'unsafe-inline'. The page has no inline script, no
+# inline event handlers, and no style attributes — the Plausible loader lives in
+# js/analytics.js precisely so it can stay that way. Keep it that way: adding an
+# inline script means weakening this line.
+#
+# The rest of the policy is shaped by what the app actually does:
+#   style-src 'unsafe-inline' — the print path builds an iframe srcdoc whose
+#     <style> block inherits this document's policy, and DOMPurify-sanitised
+#     user Markdown may carry style attributes.
+#   img-src https: data: blob: — rendering remote images is the point of a
+#     Markdown preview; ![](https://…) must work, and exporters build data:/blob:
+#     images. This is the user's own content choosing to fetch, never the app
+#     sending anything out.
+#   frame-src 'self' — the hidden print iframe (srcdoc).
+#   connect-src — Plausible only; the document itself is never transmitted.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), browsing-topics=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), xr-spatial-tracking=()
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://plausible.thompsonblack.us; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://plausible.thompsonblack.us; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  ! Access-Control-Allow-Origin
+
+/css/*
+  Cache-Control: public, max-age=3600
+
+/js/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=3600
+
+/
+  Cache-Control: public, max-age=3600
+
+# pages.dev is never a canonical host (DS §11). Cloudflare noindexes PREVIEW
+# deployments only — the production <project>.pages.dev is indexable without this.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
