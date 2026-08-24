@@ -1,0 +1,77 @@
+# CI + deploy for markdownwizard.app.
+#
+# Pull requests run the end-to-end suite. Pushes to main run it and then
+# direct-upload the static site to the Cloudflare Pages project
+# `markdownwizard` (bootstrapped one-shot from wizard-web, runbook §10 flavor;
+# custom domain markdownwizard.app + proxied CNAMEs live on that project).
+#
+# Requires the CLOUDFLARE_API_TOKEN repo secret — Account · Cloudflare Pages ·
+# Edit on the TechGuyWithABeard account is enough for deploys.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install test deps + browser
+        working-directory: tests
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: End-to-end suite (drives the app, validates every export format)
+        working-directory: tests
+        run: node e2e.mjs
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Stage the site (app files only)
+        run: |
+          mkdir -p /tmp/site
+          cp -a . /tmp/site/
+          rm -rf /tmp/site/.git /tmp/site/.github /tmp/site/tests \
+                 /tmp/site/README.md /tmp/site/LICENSE /tmp/site/.gitignore /tmp/site/.nvmrc
+
+      - name: Deploy to Cloudflare Pages (production)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 8a0d49b1f3fdcdadec135562ec8a4fdc # TechGuyWithABeard
+        run: cd /tmp/site && npx wrangler@4 pages deploy . --project-name markdownwizard --branch main --commit-dirty=true

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown Wizard — private Markdown editor &amp; document converter</title>
+  <meta name="description" content="Paste or write Markdown, preview it side by side, and download it as PDF, DOCX, DOC, DOT, RTF, TXT, HTML, or Markdown — entirely in your browser. Nothing you type ever leaves your device.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/theme-boot.js"></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand" title="Markdown Wizard"><span class="logo" aria-hidden="true">🪄</span><span class="brand-name">Markdown&nbsp;Wizard</span></div>
+    <input id="docTitle" class="doc-title" type="text" placeholder="Untitled document" spellcheck="false" autocomplete="off" aria-label="Document title (used as the download file name)">
+    <div class="topbar-actions">
+      <span class="privacy-badge" title="Everything happens locally in this browser tab. Your text is never uploaded anywhere — there is no server, no account, and no tracking. Documents autosave to this browser only.">🔒 100% local</span>
+      <button id="btnNew" class="btn" title="Start a new empty document">New</button>
+      <button id="btnOpen" class="btn" title="Open a .md or .txt file from your device">Open…</button>
+      <input type="file" id="fileInput" accept=".md,.markdown,.mdown,.txt,.text,text/plain,text/markdown" hidden>
+      <div class="download-wrap">
+        <button id="btnDownload" class="btn primary" aria-haspopup="true" aria-expanded="false">Download <span class="caret" aria-hidden="true">▾</span></button>
+        <div id="downloadMenu" class="menu" role="menu" hidden>
+          <button class="mitem" role="menuitem" data-fmt="pdf"><span class="fmt">PDF <em>.pdf</em></span><span class="hint">Real text PDF, ready to share or print</span></button>
+          <button class="mitem" role="menuitem" data-fmt="docx"><span class="fmt">Word <em>.docx</em></span><span class="hint">Best for Word, Google Docs &amp; LibreOffice</span></button>
+          <button class="mitem" role="menuitem" data-fmt="doc"><span class="fmt">Word 97–2003 <em>.doc</em></span><span class="hint">Word-compatible HTML document</span></button>
+          <button class="mitem" role="menuitem" data-fmt="dot"><span class="fmt">Word template <em>.dot</em></span><span class="hint">Opens in Word as a document template</span></button>
+          <button class="mitem" role="menuitem" data-fmt="rtf"><span class="fmt">Rich Text <em>.rtf</em></span><span class="hint">Opens in nearly every word processor</span></button>
+          <button class="mitem" role="menuitem" data-fmt="txt"><span class="fmt">Plain text <em>.txt</em></span><span class="hint">Formatting flattened to readable text</span></button>
+          <button class="mitem" role="menuitem" data-fmt="html"><span class="fmt">Web page <em>.html</em></span><span class="hint">Self-contained styled page</span></button>
+          <button class="mitem" role="menuitem" data-fmt="md"><span class="fmt">Markdown <em>.md</em></span><span class="hint">The raw source, as written</span></button>
+          <div class="msep" role="separator"></div>
+          <button class="mitem" role="menuitem" data-cmd="print"><span class="fmt">Print…</span><span class="hint">System dialog — pick “Save as PDF” for perfect fidelity</span></button>
+          <button class="mitem" role="menuitem" data-cmd="copyrich"><span class="fmt">Copy rich text</span><span class="hint">Paste formatted into Gmail, Word, Docs…</span></button>
+          <button class="mitem" role="menuitem" data-cmd="copyhtml"><span class="fmt">Copy HTML source</span><span class="hint">The rendered markup, to your clipboard</span></button>
+        </div>
+      </div>
+      <button id="btnTheme" class="btn icon-btn" title="Toggle light / dark theme" aria-label="Toggle light or dark theme">◐</button>
+    </div>
+  </header>
+
+  <main class="split" id="split">
+    <section class="pane editor-pane" aria-label="Markdown editor">
+      <div class="pane-head"><span>Markdown</span><span class="pane-hint">autosaves as you type</span></div>
+      <textarea id="editor" spellcheck="true" autocomplete="off" autocapitalize="off" placeholder="Paste or type your Markdown here…" aria-label="Markdown source"></textarea>
+    </section>
+    <div class="divider" id="divider" role="separator" aria-orientation="vertical" aria-label="Resize editor and preview panes (arrow keys, double-click to reset)" tabindex="0"></div>
+    <section class="pane preview-pane" aria-label="Preview">
+      <div class="pane-head"><span>Preview</span><span class="pane-hint">what your document will look like</span></div>
+      <div id="preview" class="preview">
+        <div id="sheet" class="sheet md-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="toolbar" id="toolbar" aria-label="Formatting tools">
+    <button class="tbtn" data-action="undo" title="Undo (Ctrl+Z)">↶</button>
+    <button class="tbtn" data-action="redo" title="Redo (Ctrl+Y)">↷</button>
+    <span class="tsep"></span>
+    <button class="tbtn" data-action="heading" data-arg="1" title="Heading 1">H1</button>
+    <button class="tbtn" data-action="heading" data-arg="2" title="Heading 2">H2</button>
+    <button class="tbtn" data-action="heading" data-arg="3" title="Heading 3">H3</button>
+    <span class="tsep"></span>
+    <button class="tbtn t-bold" data-action="bold" title="Bold (Ctrl+B)">B</button>
+    <button class="tbtn t-italic" data-action="italic" title="Italic (Ctrl+I)">I</button>
+    <button class="tbtn t-strike" data-action="strike" title="Strikethrough (Ctrl+Shift+X)">S</button>
+    <button class="tbtn t-mono" data-action="codespan" title="Inline code (Ctrl+E)">&lt;/&gt;</button>
+    <span class="tsep"></span>
+    <button class="tbtn" data-action="ul" title="Bulleted list">•&nbsp;List</button>
+    <button class="tbtn" data-action="ol" title="Numbered list">1.&nbsp;List</button>
+    <button class="tbtn" data-action="task" title="Task list">☑&nbsp;Task</button>
+    <button class="tbtn" data-action="quote" title="Block quote">❝&nbsp;Quote</button>
+    <span class="tsep"></span>
+    <button class="tbtn" data-action="link" title="Link (Ctrl+K)">Link</button>
+    <button class="tbtn" data-action="image" title="Image">Image</button>
+    <button class="tbtn" data-action="table" title="Insert table">Table</button>
+    <button class="tbtn t-mono" data-action="codeblock" title="Code block">```</button>
+    <button class="tbtn" data-action="hr" title="Horizontal rule">—&nbsp;Rule</button>
+    <div class="counts" id="counts" aria-live="off"></div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/vendor/marked.min.js"></script>
+  <script src="js/vendor/purify.min.js"></script>
+  <script src="js/vendor/docx.iife.js"></script>
+  <script src="js/vendor/pdfmake.min.js"></script>
+  <script src="js/vendor/vfs_fonts.js"></script>
+  <script src="js/mdw-core.js"></script>
+  <script src="js/mdw-editor.js"></script>
+  <script src="js/exporters/common.js"></script>
+  <script src="js/exporters/html.js"></script>
+  <script src="js/exporters/txt.js"></script>
+  <script src="js/exporters/rtf.js"></script>
+  <script src="js/exporters/docx.js"></script>
+  <script src="js/exporters/pdf.js"></script>
+  <script src="js/mdw-app.js"></script>
+</body>
+</html>
