@@ -6,7 +6,10 @@
 Paste text that may or may not contain Markdown, shape it in a side-by-side
 editor/preview, then download the finished document in the format the moment
 calls for. Everything runs locally in the browser: there is no server, no
-account, and your text is never uploaded anywhere.
+account, and your text is never uploaded anywhere. The one exception is a
+self-hosted, cookieless Plausible page-view count on the hosted site — it
+records that the page was visited, never what you typed, and it does not load at
+all when the file is opened offline from `file://`.
 
 Part of the [wizard family](https://github.com/MichalAFerber/wizard-web) of
 browser tools.
@@ -91,8 +94,11 @@ deploy` — no other setup.
 | [docx] | 8.5.0 | MIT | `.docx` generation |
 | [pdfmake] | 0.2.10 | MIT (Roboto: Apache-2.0) | `.pdf` generation |
 
-License texts live in `js/vendor/licenses/`. Everything is pinned and served
-from this repo — no CDNs — so the privacy guarantee is auditable.
+License texts live in `js/vendor/licenses/`. Every dependency is pinned and
+served from this repo — no CDNs — so the privacy guarantee is auditable. The
+only third-party request the page makes is the Plausible tracker on
+`plausible.thompsonblack.us`, which is self-hosted, cookieless, and carries no
+document content.
 
 ## Known limitations
 

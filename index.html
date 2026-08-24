@@ -8,6 +8,21 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/app.css">
   <script src="js/theme-boot.js"></script>
+  <!-- Self-hosted, cookieless Plausible: counts page views and outbound clicks.
+       It never sees the document — the editor's text stays in this tab.
+       Loaded only on the real host, deliberately: this page is also meant to be
+       double-clicked and used offline from file://, where a hard <script src>
+       fails the request and dirties the console, and the local test server and
+       pages.dev previews would otherwise report as production traffic. -->
+  <script>
+    if (location.hostname === 'markdownwizard.app') {
+      const s = document.createElement('script');
+      s.defer = true;
+      s.dataset.domain = 'markdownwizard.app';
+      s.src = 'https://plausible.thompsonblack.us/js/script.outbound-links.file-downloads.tagged-events.js';
+      document.head.appendChild(s);
+    }
+  </script>
 </head>
 <body>
 
@@ -15,7 +30,7 @@
     <div class="brand" title="Markdown Wizard"><span class="logo" aria-hidden="true">🪄</span><span class="brand-name">Markdown&nbsp;Wizard</span></div>
     <input id="docTitle" class="doc-title" type="text" placeholder="Untitled document" spellcheck="false" autocomplete="off" aria-label="Document title (used as the download file name)">
     <div class="topbar-actions">
-      <span class="privacy-badge" title="Everything happens locally in this browser tab. Your text is never uploaded anywhere — there is no server, no account, and no tracking. Documents autosave to this browser only.">🔒 100% local</span>
+      <span class="privacy-badge" title="Your document never leaves this browser tab — there is no server and no account, and it autosaves here only. The single network request is a self-hosted, cookieless page-view count that records the visit, never your text.">🔒 100% local</span>
       <button id="btnNew" class="btn" title="Start a new empty document">New</button>
       <button id="btnOpen" class="btn" title="Open a .md or .txt file from your device">Open…</button>
       <input type="file" id="fileInput" accept=".md,.markdown,.mdown,.txt,.text,text/plain,text/markdown" hidden>
