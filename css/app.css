@@ -437,3 +437,18 @@ body.dropping .editor-pane { outline: 2px dashed var(--accent); outline-offset: 
   .sheet { padding: 26px 22px 40px; }
   #editor { padding: 14px 16px 30vh; }
 }
+
+/* 404 page. Cloudflare Pages serves index.html with a 200 for unmatched routes
+   unless a 404.html exists, so this page is what makes not-found actually mean
+   not-found. Theme variables only — it inherits light/dark from theme-boot.js. */
+.notfound {
+  max-width: 40rem;
+  margin: 12vh auto 0;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--text);
+  font-family: var(--sans);
+}
+.notfound h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
+.notfound p { margin: 0 0 1.25rem; color: var(--muted); line-height: 1.6; }
+.notfound a.btn { display: inline-block; text-decoration: none; padding: 8px 16px; }

@@ -1,0 +1,8 @@
+# robots.txt for Markdown Wizard
+# https://markdownwizard.app
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://markdownwizard.app/sitemap-index.xml
