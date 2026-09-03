@@ -243,6 +243,57 @@ await page.click('#btnTheme');
 
 await page.screenshot({ path: path.join(dlDir, 'screenshot-http.png') });
 
+console.log('\n== required pages (DS \u00a79) ==');
+
+// These four pages all returned 404 on the live site until 2026-09-03. A
+// missing required page is invisible from the editor -- nothing links to it
+// from the app shell by default and nothing else in this suite loads it -- so
+// it is checked here rather than trusted. The canonical assertion is the half
+// that catches a copy-paste: four pages built from one template will happily
+// ship four identical canonical URLs, which is worse than none.
+const REQUIRED = [
+  { path: 'docs.html',    route: '/docs',    h1: 'Documentation' },
+  { path: 'privacy.html', route: '/privacy', h1: 'Privacy Policy' },
+  { path: 'support.html', route: '/support', h1: 'Support' },
+  { path: 'terms.html',   route: '/terms',   h1: 'Terms of Use' },
+];
+
+for (const pg of REQUIRED) {
+  await page.goto(`http://127.0.0.1:${port}/${pg.path}`);
+  const h1 = (await page.textContent('h1').catch(() => '')) || '';
+  check(`${pg.route} renders its heading`, h1.trim() === pg.h1, h1.trim());
+
+  const canonical = await page.getAttribute('link[rel=canonical]', 'href').catch(() => null);
+  check(`${pg.route} declares its own canonical`,
+    canonical === `https://markdownwizard.app${pg.route}`, String(canonical));
+
+  // The app shell is a fixed-height flex column with overflow:hidden, so a long
+  // document only scrolls if .page supplies its own scroll container. Without it
+  // the page renders and silently truncates -- it looks fine in a screenshot.
+  const scrollable = await page.evaluate(() => {
+    const el = document.querySelector('.page');
+    return !!el && getComputedStyle(el).overflowY === 'auto';
+  });
+  check(`${pg.route} content can scroll`, scrollable);
+
+  const linked = await page.evaluate(() =>
+    [...document.querySelectorAll('.pagefoot a')].map((a) => a.getAttribute('href')));
+  check(`${pg.route} carries the site nav`, REQUIRED.every((r) => linked.includes(r.route)),
+    linked.join(' '));
+}
+
+// Reachability: a required page nothing links to is a page nobody finds. The
+// editor has no site footer, so these live on the toolbar's trailing edge.
+await page.goto(`http://127.0.0.1:${port}/`);
+const editorLinks = await page.evaluate(() =>
+  [...document.querySelectorAll('.tlinks a')].map((a) => a.getAttribute('href')));
+check('editor links every required page',
+  REQUIRED.every((r) => editorLinks.includes(r.route)), editorLinks.join(' '));
+
+const sitemap = fs.readFileSync(path.join(appDir, 'sitemap-0.xml'), 'utf8');
+check('sitemap lists every required page',
+  REQUIRED.every((r) => sitemap.includes(`https://markdownwizard.app${r.route}<`)));
+
 console.log('\n== file:// operation (offline / double-click use) ==');
 const page2 = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const errors2 = [];

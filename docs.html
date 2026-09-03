@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation — Markdown Wizard</title>
+  <meta name="description" content="How to use Markdown Wizard: the side-by-side editor, the formatting toolbar, keyboard shortcuts, all eight download formats, autosave, and working offline.">
+  <link rel="canonical" href="https://markdownwizard.app/docs">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/app.css">
+  <script src="/js/theme-boot.js"></script>
+  <script src="/js/analytics.js" defer></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand" title="Markdown Wizard"><span class="logo" aria-hidden="true">🪄</span><span class="brand-name">Markdown&nbsp;Wizard</span></div>
+    <div class="topbar-actions"><a class="btn primary" href="/">Open the editor</a></div>
+  </header>
+
+  <main class="page">
+    <article class="sheet md-body">
+      <h1>Documentation</h1>
+      <p class="updated">Last updated: September 3, 2026</p>
+
+      <p>Markdown Wizard is a Markdown editor and document converter that runs entirely in your
+        browser. Write on the left, watch it render on the right, then download the result in the
+        format the moment calls for. Nothing you type is ever uploaded.</p>
+
+      <h2>Getting started</h2>
+      <ol>
+        <li>Open <a href="/">the editor</a>. It starts with a sample document so you can see what
+          rendering looks like — select all and start typing to replace it.</li>
+        <li>Type or paste Markdown into the left pane. The preview updates as you type.</li>
+        <li>Give the document a name in the title box at the top. That name becomes the file name of
+          anything you download.</li>
+        <li>Choose <strong>Download</strong> and pick a format.</li>
+      </ol>
+      <p>To work on a file you already have, use <strong>Open…</strong> and pick a
+        <code>.md</code>, <code>.markdown</code>, <code>.mdown</code>, <code>.txt</code>, or
+        <code>.text</code> file. It is read in your browser; it is not uploaded.</p>
+
+      <h2>The editor</h2>
+      <ul>
+        <li><strong>Side-by-side panes.</strong> Markdown on the left, rendered preview on the right,
+          with synchronized scrolling.</li>
+        <li><strong>Draggable divider.</strong> Drag it to resize the panes. It is also focusable —
+          use the arrow keys to move it, and double-click to reset it to the middle.</li>
+        <li><strong>Formatting toolbar</strong> along the bottom: undo and redo; headings 1–3; bold,
+          italic, strikethrough, and inline code; bulleted, numbered, and task lists; block quotes;
+          links, images, tables, code blocks, and horizontal rules.</li>
+        <li><strong>Live counts</strong> of words and characters at the end of the toolbar.</li>
+        <li><strong>Light and dark themes</strong> — the ◐ button toggles, and your choice is
+          remembered.</li>
+      </ul>
+      <p>On a narrow screen the panes stack vertically instead of sitting side by side, and the
+        toolbar scrolls horizontally.</p>
+
+      <h2>Keyboard shortcuts</h2>
+      <table>
+        <thead>
+          <tr><th>Shortcut</th><th>Does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>Ctrl</code>/<code>Cmd</code> + <code>B</code></td><td>Bold</td></tr>
+          <tr><td><code>Ctrl</code>/<code>Cmd</code> + <code>I</code></td><td>Italic</td></tr>
+          <tr><td><code>Ctrl</code>/<code>Cmd</code> + <code>K</code></td><td>Link</td></tr>
+          <tr><td><code>Ctrl</code>/<code>Cmd</code> + <code>E</code></td><td>Inline code</td></tr>
+          <tr><td><code>Ctrl</code>/<code>Cmd</code> + <code>Shift</code> + <code>X</code></td><td>Strikethrough</td></tr>
+          <tr><td><code>Tab</code> / <code>Shift</code> + <code>Tab</code></td><td>Indent or outdent the current line</td></tr>
+          <tr><td><code>Enter</code></td><td>Continues the list you are in, and ends it on an empty item</td></tr>
+          <tr><td><code>Esc</code> then <code>Tab</code></td><td>Moves focus out of the editor instead of indenting — how you reach the rest of the page with a keyboard</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Download formats</h2>
+      <p>Every format is generated in your browser. Nothing is sent anywhere to be converted.</p>
+      <table>
+        <thead>
+          <tr><th>Format</th><th>Best for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>PDF</strong> <code>.pdf</code></td><td>Sharing or printing. A real vector PDF with selectable text, not an image.</td></tr>
+          <tr><td><strong>Word</strong> <code>.docx</code></td><td>Word, Google Docs, and LibreOffice. Genuine OOXML, with images embedded.</td></tr>
+          <tr><td><strong>Word 97–2003</strong> <code>.doc</code></td><td>Older Word versions that will not open <code>.docx</code>.</td></tr>
+          <tr><td><strong>Word template</strong> <code>.dot</code></td><td>Opening in Word as a document template.</td></tr>
+          <tr><td><strong>Rich Text</strong> <code>.rtf</code></td><td>Nearly every word processor ever made.</td></tr>
+          <tr><td><strong>Plain text</strong> <code>.txt</code></td><td>Formatting flattened to readable text.</td></tr>
+          <tr><td><strong>Web page</strong> <code>.html</code></td><td>A self-contained styled page you can open in any browser.</td></tr>
+          <tr><td><strong>Markdown</strong> <code>.md</code></td><td>The raw source, exactly as written.</td></tr>
+        </tbody>
+      </table>
+      <p>The same menu also offers <strong>Print…</strong>, which opens your system print dialog —
+        choosing "Save as PDF" there renders through the browser's own engine, which is the best
+        fidelity available if a generated PDF is not quite what you wanted. <strong>Copy rich
+        text</strong> puts the formatted document on your clipboard for pasting straight into Gmail,
+        Word, or Docs, and <strong>Copy HTML source</strong> copies the rendered markup.</p>
+
+      <h2>Autosave</h2>
+      <p>Your document autosaves to this browser as you type, so reloading the page does not lose
+        your work. It is stored in the browser's local storage on your own device — never on a
+        server — under keys beginning <code>mdw:</code>.</p>
+      <p>Two things to know. <strong>New</strong> empties the editor and the autosaved copy with it,
+        which is why it asks first. And because the copy lives in one browser on one device, it does
+        not follow you to another browser, another machine, or a private window — download anything
+        you need to keep.</p>
+
+      <h2>Working offline</h2>
+      <p>The editor keeps working after the page has loaded, with no network connection. You can also
+        save the whole app to your device and open it from a local <code>file://</code> copy, where
+        it runs with no network requests at all — not even the page-view count.</p>
+      <p>The one thing that needs a connection is a remote image referenced by your Markdown, which
+        the preview fetches from wherever you pointed it.</p>
+
+      <h2>Privacy</h2>
+      <p>There is no server, no account, and no upload. What you type stays in the browser tab. The
+        <a href="/privacy">Privacy Policy</a> sets out exactly what the hosted site does and does not
+        see, including the single case in which using the editor causes a request to leave your
+        device.</p>
+
+      <h2>If something goes wrong</h2>
+      <ul>
+        <li><strong>An export does not look right.</strong> Fidelity varies by format and by the app
+          you open it in. For a PDF that matches the preview most closely, use
+          <strong>Download → Print…</strong> and choose "Save as PDF".</li>
+        <li><strong>Your document disappeared.</strong> Autosave is per-browser and per-device.
+          Clearing site data, a private window, or a different browser all start empty.</li>
+        <li><strong>An image is missing from an export.</strong> Remote images must be reachable at
+          export time in order to be embedded.</li>
+      </ul>
+      <p>Still stuck? The <a href="/support">support page</a> has how to reach us.</p>
+    </article>
+
+    <nav class="pagefoot" aria-label="Site">
+      <a href="/">Editor</a>
+      <a href="/docs">Docs</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/support">Support</a>
+    </nav>
+  </main>
+
+</body>
+</html>

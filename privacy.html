@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Markdown Wizard</title>
+  <meta name="description" content="Markdown Wizard runs entirely in your browser. Your document is never uploaded, never stored on a server, and never seen by us. Analytics is self-hosted and cookieless.">
+  <link rel="canonical" href="https://markdownwizard.app/privacy">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/app.css">
+  <script src="/js/theme-boot.js"></script>
+  <script src="/js/analytics.js" defer></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand" title="Markdown Wizard"><span class="logo" aria-hidden="true">🪄</span><span class="brand-name">Markdown&nbsp;Wizard</span></div>
+    <div class="topbar-actions"><a class="btn primary" href="/">Open the editor</a></div>
+  </header>
+
+  <main class="page">
+    <article class="sheet md-body">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: September 3, 2026</p>
+
+      <h2>The short version</h2>
+      <p>Markdown Wizard runs entirely in your browser. The text you type, paste, or open is
+        <strong>never sent to a server</strong> — there is no backend to send it to. It is rendered,
+        converted, and exported on your own device, and it is saved only in your browser's local
+        storage so your work survives a reload. There are no accounts, no logins, and no record
+        anywhere of what you wrote.</p>
+
+      <h2>Your document</h2>
+      <ul>
+        <li>Processed entirely on your device — there is no upload and no server-side conversion.
+          Every download format, including PDF and Word, is generated in the browser.</li>
+        <li>Autosaved to your browser's local storage under keys beginning <code>mdw:</code>, so
+          reloading the page does not lose your work.</li>
+        <li>Deleted when you clear it, use <strong>New</strong>, or clear your browser data. Because
+          it never leaves the device, there is no copy for us to delete.</li>
+        <li>Still available offline: the page keeps working once loaded, and the whole app can be
+          saved and opened from a local <code>file://</code> copy, where it makes no network
+          requests at all.</li>
+      </ul>
+
+      <h2>Images you reference</h2>
+      <p>This is the one case where using the editor can cause a request to leave your device, so it
+        is stated plainly rather than buried. If your Markdown references a remote image —
+        <code>![](https://example.com/photo.png)</code> — the preview loads that image, which tells
+        the server hosting it your IP address and browser user-agent, exactly as it would on any web
+        page. That request goes to whatever host <em>you</em> referenced; it never passes through us,
+        and the text of your document is not part of it. Referencing no remote images means no such
+        request happens.</p>
+
+      <h2>This website</h2>
+      <p>markdownwizard.app is served by Cloudflare Pages, which receives standard web request
+        metadata (IP address, user agent, requested URL, timestamp) in order to deliver the page and
+        protect against abuse.</p>
+      <p>For analytics we use self-hosted, cookieless
+        <a href="https://plausible.io/" target="_blank" rel="noopener">Plausible</a>, running on our
+        own server rather than a third-party service. It records that a page was visited — never what
+        you typed. There are no cookies, no cross-site tracking, no personal identifiers, and nothing
+        is shared with ad networks. It does not load at all when the app is opened offline from
+        <code>file://</code>.</p>
+
+      <h2>What we never collect</h2>
+      <ul>
+        <li>The content of your documents, in whole or in part</li>
+        <li>Document titles or file names</li>
+        <li>User accounts, email addresses, or passwords — there are none to collect</li>
+        <li>Payment information — Markdown Wizard is free to use and has no checkout</li>
+      </ul>
+
+      <h2>Data sharing</h2>
+      <p>We do not sell, rent, or share your personal information. The only third parties involved
+        are Cloudflare, which serves this site, and our own self-hosted Plausible instance.</p>
+
+      <h2>Children's privacy</h2>
+      <p>Markdown Wizard does not knowingly collect any personal information from children under 13
+        years of age.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy from time to time; material changes are reflected in the
+        "Last updated" date above.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy? See the <a href="/support">support page</a> for how to reach
+        us.</p>
+    </article>
+
+    <nav class="pagefoot" aria-label="Site">
+      <a href="/">Editor</a>
+      <a href="/docs">Docs</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/support">Support</a>
+    </nav>
+  </main>
+
+</body>
+</html>
