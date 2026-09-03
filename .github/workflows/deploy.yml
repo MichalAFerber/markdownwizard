@@ -45,6 +45,16 @@ jobs:
         working-directory: tests
         run: node e2e.mjs
 
+      # Serves the repo under the EXACT CSP from _headers and fails on any
+      # securitypolicyviolation. Until 2026-09-03 this file existed and nothing ran
+      # it, so README's claim that CSP is covered was a written argument that had
+      # never been executed. Verified red before being trusted green: an inline
+      # <script> added to index.html produces "script-src-elem blocked inline" and
+      # exit 1.
+      - name: Strict-CSP check (proves _headers does not break the app)
+        working-directory: tests
+        run: node csp-check.mjs
+
   deploy:
     needs: test
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'

@@ -4,8 +4,14 @@ import { chromium } from 'playwright';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = '/home/user/markdownwizard';
+// Derived from this file's own location, never hardcoded: the absolute path this
+// used to carry ('/home/user/markdownwizard') existed only in the sandbox where the
+// file was written, so the check could not have run on a Mac or a CI runner even
+// if something had invoked it. e2e.mjs beside this file already does it this way.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
 const CSP = fs.readFileSync(path.join(ROOT, '_headers'), 'utf8')
   .split('\n').find((l) => l.trim().startsWith('Content-Security-Policy:'))
   .split('Content-Security-Policy:')[1].trim();
