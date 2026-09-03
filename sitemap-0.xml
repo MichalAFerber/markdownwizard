@@ -3,4 +3,16 @@
   <url>
     <loc>https://markdownwizard.app/</loc>
   </url>
+  <url>
+    <loc>https://markdownwizard.app/docs</loc>
+  </url>
+  <url>
+    <loc>https://markdownwizard.app/privacy</loc>
+  </url>
+  <url>
+    <loc>https://markdownwizard.app/support</loc>
+  </url>
+  <url>
+    <loc>https://markdownwizard.app/terms</loc>
+  </url>
 </urlset>
